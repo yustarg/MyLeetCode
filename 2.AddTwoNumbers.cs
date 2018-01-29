@@ -18,8 +18,8 @@ Explanation: 342 + 465 = 807.
  */
 public class Solution {
     public ListNode AddTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode result = null;
-        ListNode tNode = null;
+        ListNode result = new ListNode(0);
+        ListNode curNode = result;
         int carry = 0;
         while(!(l1 == null && l2 == null))
         {
@@ -30,21 +30,13 @@ public class Solution {
             if(l2 != null) l2 = l2.next;
             carry = node.val / 10;
             node.val = node.val % 10;
-            if(result == null)
-            {
-                result = node;
-                tNode = result;
-            }else
-            {
-                tNode.next = node;
-                tNode = tNode.next;
-            }
+            curNode.next = node;
+            curNode = curNode.next;
         }
         if(carry != 0)
         {
-            ListNode node = new ListNode(1);
-            tNode.next = node;
+            curNode.next = new ListNode(carry);
         }
-        return result;
+        return result.next;
     }
 }
