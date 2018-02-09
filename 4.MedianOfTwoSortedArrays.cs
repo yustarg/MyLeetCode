@@ -51,3 +51,67 @@ public double FindMedianSortedArrays(int[] nums1, int[] nums2)
     }
     return result;
 }
+
+
+// 官方的solution
+public double FindMedianSortedArrays()
+{
+    if (nums2.Length < nums1.Length)
+    {
+        int[] temp = nums2;
+        nums2 = nums1;
+        nums1 = temp;
+    }
+    int m = nums1.Length;
+    int n = nums2.Length;
+    bool isEven = (m + n) % 2 == 0;
+    int iMax = m, iMin = 0;
+    double result = 0;
+    while (iMin <= iMax)
+    {
+        int i = (iMax + iMin + 1) / 2;
+        int j = (m + n + 1) / 2 - i;
+        if (i > iMin && nums1[i - 1] > nums2[j])
+        {
+            iMax--;
+        }
+        else if (i < iMax && nums2[j - 1] > nums1[i])
+        {
+            iMin++;
+        }
+        else
+        {
+            double maxLeft = 0;
+            if (i == 0)
+            {
+                maxLeft = nums2[j - 1];
+            }
+            else if (j == 0)
+            {
+                maxLeft = nums1[i - 1];
+            }
+            else
+            {
+                maxLeft = (double)(Math.Max(nums1[i - 1], nums2[j - 1])); 
+            }
+            if (!isEven) return maxLeft;
+
+            double minRight = 0;
+            if (i == m)
+            {
+                minRight = nums2[j];
+            }
+            else if (j == n)
+            {
+                minRight = nums1[i];
+            }
+            else
+            {
+                minRight = (double)(Math.Min(nums1[i], nums2[j]));
+            }
+            result = (minRight + maxLeft) / 2;
+            return result;
+        }
+    }
+    return result;
+}
